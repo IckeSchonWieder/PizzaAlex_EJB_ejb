@@ -12,35 +12,31 @@ import java.sql.*;
  */
 public class DaoUser extends DbConnection {
 
-    PreparedStatement stm;
-    ResultSet rs;
-    /**
-     * Connection to database. Is managed by super Class (DbConnection)
-     */
-    Connection connec = null;
-
+    PreparedStatement stmU;
+    ResultSet rsU;
+    
+    
     public void readUserData(Connection con, User u) throws SQLException {
-        stm = con.prepareStatement("SELECT * FROM benutzer WHERE BeNr = ?");
-        stm.setInt(1, u.getUserID());
-        rs = stm.executeQuery();
-        rs.next();
-        u.setUsername(rs.getString("BeName"));
-        u.setPassword(rs.getString("Passwort"));
-        u.setRole(rs.getString("Rolle"));
-
+        stmU = con.prepareStatement("SELECT * FROM benutzer WHERE BeNr = ?");
+        stmU.setInt(1, u.getUserID());
+        rsU = stmU.executeQuery();
+        rsU.next();
+        u.setUsername(rsU.getString("BeName").toLowerCase());
+        u.setPassword(rsU.getString("Passwort"));
+        u.setRole(rsU.getString("Rolle"));
     }
 
     public void storeUser(Connection con, User u) throws SQLException {
-        stm = connec.prepareStatement("INSERT INTO benutzer (BeName, passwort, rolle) "
+        stmU = con.prepareStatement("INSERT INTO benutzer (BeName, passwort, rolle) "
                 + "VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        stm.setString(1, u.getUsername().trim());
-        stm.setString(2, Encoder.hash(u.getPassword()));
-        stm.setString(3, u.getRole().trim());
-        int rows = stm.executeUpdate();
+        stmU.setString(1, u.getUsername().trim());
+        stmU.setString(2, Encoder.hash(u.getPassword()));
+        stmU.setString(3, u.getRole().trim());
+        int rows = stmU.executeUpdate();
         
-        rs = stm.getGeneratedKeys();
-        rs.next();
-        int UserID = rs.getInt(1);
+        rsU = stmU.getGeneratedKeys();
+        rsU.next();
+        int UserID = rsU.getInt(1);
         u.setUserID(UserID);
         System.out.printf("Es wurde User Nr %d hinzugefügt %n", UserID);        
     }

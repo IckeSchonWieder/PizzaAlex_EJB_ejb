@@ -58,7 +58,6 @@ public class DaoOrder extends DbConnection {
             System.out.printf("Es wurde Bestellung Nr %d hinzugefügt %n", OrNr);
             
             for (OrderedItem item:ord.getItems()) {
-                System.out.printf("Pizza %s wird hinzugefügt%n", item.getPizza().getName());
                 storePizza(item.getPizza(), OrNr, item.getCount());
             }
             

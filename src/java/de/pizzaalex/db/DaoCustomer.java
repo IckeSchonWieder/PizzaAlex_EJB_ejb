@@ -17,17 +17,19 @@ import java.util.logging.Logger;
  * @author AWagner
  */
 public class DaoCustomer extends DaoUser {
-    
-  
+    PreparedStatement stm;
+    ResultSet rs;
+    Connection connec = null;    
+ 
    
     /**
-     * Method for reading all the contacts in database in table "Customer"
+     * Method for reading all the contacts in database in table "Kunde"
      * 
      * @return A list (collection object) of customers read from database.
      */ 
     public List<Customer> readCustomers() {
         List<Customer> customers = new ArrayList<>();
-                
+        
         try {
             connec = getConnection();
             stm = connec.prepareStatement("SELECT * FROM Kunde");
@@ -35,25 +37,20 @@ public class DaoCustomer extends DaoUser {
             
             while(rs.next()){
                 Customer cus = new Customer();
-                //ID is a property of derived class Customer
                 cus.setId(rs.getInt("KdNr"));
-                //UserID is a property of super class User
-                cus.setUserID(rs.getInt("BeNr"));
                 cus.setFirstname(rs.getString("Vorname"));
                 cus.setLastname(rs.getString("Name"));
                 cus.setStreet(rs.getString("Strasse"));
                 cus.setPostalcode(rs.getString("Plz"));
                 cus.setCity(rs.getString("Ort"));
-                
+                cus.setUserID(rs.getInt("BeNr"));
+                 
                 readUserData(connec, cus);
                 
                 customers.add(cus);
                 
             }
-            
-            
-            
-            
+           
         } catch (SQLException ex) {
             Logger.getLogger(DaoCustomer.class.getName()).log(Level.SEVERE, null, ex);
         
@@ -62,11 +59,42 @@ public class DaoCustomer extends DaoUser {
             if (connec != null)
                 try {connec.close();} catch (SQLException e) {e.printStackTrace();}
         }
-        
         return customers;
         
     }
     
+    
+    public Customer readSingleCustomer(int id) {
+        Customer cus = new Customer();
+        
+        try {
+            connec = getConnection();
+            stm = connec.prepareStatement("SELECT * FROM Kunde WHERE KdNr = ?");
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            
+            rs.next();
+            cus.setId(rs.getInt("KdNr"));
+            cus.setUserID(rs.getInt("BeNr"));
+            cus.setFirstname(rs.getString("Vorname"));
+            cus.setLastname(rs.getString("Name"));
+            cus.setStreet(rs.getString("Strasse"));
+            cus.setPostalcode(rs.getString("Plz"));
+            cus.setCity(rs.getString("Ort"));
+
+            readUserData(connec, cus);
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        
+        // Close connection in any case!
+        } finally  {
+            if (connec != null)
+                try {connec.close();} catch (SQLException e) {e.printStackTrace();}
+        }
+        return cus;
+        
+    }
    
     /**
      * Method for storing a Customer. Customer's attributes are inserted into table 
@@ -94,7 +122,7 @@ public class DaoCustomer extends DaoUser {
             stm.setString(3, cus.getStreet().trim());
             stm.setString(4, cus.getPostalcode().trim());
             stm.setString(5, cus.getCity().trim());
-            // UserID=BeNr was automatically set by database, when storing user (primary key)
+            // UserID=BeNr was automatically set by database, when storing user
             stm.setInt(6, cus.getUserID());
             
             int rows = stm.executeUpdate();
@@ -104,6 +132,7 @@ public class DaoCustomer extends DaoUser {
             rs.next();
             int KdNr = rs.getInt(1);
             cus.setId(KdNr);
+            System.out.println(cus.toString());
             System.out.printf("Es wurde Kunde Nr %d hinzugefügt %n", KdNr);
             
             
@@ -131,7 +160,7 @@ public class DaoCustomer extends DaoUser {
      * 
      * @param cus Customer which shall be deleted from database.
      * @return True, if no exception. Otherwise returns false. 
-     */
+     
     public boolean deleteContact(Customer cus) {
         try {
 
@@ -160,5 +189,5 @@ public class DaoCustomer extends DaoUser {
         
         return false;
     }
-    
+    */
 }
