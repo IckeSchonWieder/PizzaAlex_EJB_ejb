@@ -47,6 +47,7 @@ public class DataBean implements Serializable, DataBeanRemote {
 
     @Override
     public void storeCustomer(Customer cus) {
+        System.out.println(cus.toString());
         DaoCustomer dc = new DaoCustomer();
         dc.storeContact(cus);
         customers.add(cus);
