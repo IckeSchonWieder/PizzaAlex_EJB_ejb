@@ -106,6 +106,7 @@ public class DaoCustomer extends DaoUser {
      */
     public boolean storeContact(Customer cus) {
         try {
+            System.out.println("DAOCust: " + cus.hashCode());
             
             connec = getConnection();
             if (connec == null) {
@@ -132,12 +133,8 @@ public class DaoCustomer extends DaoUser {
             rs.next();
             int KdNr = rs.getInt(1);
             cus.setId(KdNr);
-            System.out.println(cus.toString());
             System.out.printf("Es wurde Kunde Nr %d hinzugefügt %n", KdNr);
-            
-            
-
-            
+           
             return true;
         
         } catch (SQLException ex) {

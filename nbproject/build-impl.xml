@@ -802,16 +802,32 @@ exists or setup the property manually. For example like this:
     <target depends="compile,-library-inclusion-in-archive-weblogic,-library-inclusion-in-archive-by-user" name="library-inclusion-in-archive"/>
     <target if="is.jars.in.ejbjar" name="-library-inclusion-in-archive-by-user">
         <copyfiles files="${reference.PizzaEJB_AW-lib.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.appserv-rt.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.gf-client.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.javaee.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.jndi-properties.jar}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
         <basename file="${reference.PizzaEJB_AW-lib.jar}" property="manifest.reference.PizzaEJB_AW-lib.jar"/>
+        <basename file="${file.reference.appserv-rt.jar}" property="manifest.file.reference.appserv-rt.jar"/>
+        <basename file="${file.reference.gf-client.jar}" property="manifest.file.reference.gf-client.jar"/>
+        <basename file="${file.reference.javaee.jar}" property="manifest.file.reference.javaee.jar"/>
+        <basename file="${file.reference.jndi-properties.jar}" property="manifest.file.reference.jndi-properties.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 "/>
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.reference.PizzaEJB_AW-lib.jar}"/>
+            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.appserv-rt.jar}"/>
+            <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.gf-client.jar}"/>
+            <attribute name="jar-4-Extension-Name" value="${manifest.file.reference.javaee.jar}"/>
+            <attribute name="jar-5-Extension-Name" value="${manifest.file.reference.jndi-properties.jar}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
         <copyfiles files="${reference.PizzaEJB_AW-lib.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.appserv-rt.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gf-client.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.javaee.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jndi-properties.jar}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">
