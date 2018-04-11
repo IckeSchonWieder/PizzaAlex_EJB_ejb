@@ -44,7 +44,7 @@ public class DaoCustomer extends DaoUser {
                 cus.setStreet(rs.getString("Strasse"));
                 cus.setPostalcode(rs.getString("Plz"));
                 cus.setCity(rs.getString("Ort"));
-                cus.setUserID(rs.getInt("BeNr"));
+                cus.setUserID(rs.getInt("UserNr"));
                  
                 readUserData(connec, cus);
                 

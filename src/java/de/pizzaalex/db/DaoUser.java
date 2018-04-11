@@ -17,17 +17,17 @@ public class DaoUser extends DbConnection {
     
     
     public void readUserData(Connection con, User u) throws SQLException {
-        stmU = con.prepareStatement("SELECT * FROM benutzer WHERE BeNr = ?");
+        stmU = con.prepareStatement("SELECT * FROM benutzer WHERE UserNr = ?");
         stmU.setInt(1, u.getUserID());
         rsU = stmU.executeQuery();
         rsU.next();
-        u.setUsername(rsU.getString("BeName").toLowerCase());
+        u.setUsername(rsU.getString("UserName").toLowerCase());
         u.setPassword(rsU.getString("Passwort"));
         u.setRole(rsU.getString("Rolle"));
     }
 
     public void storeUser(Connection con, User u) throws SQLException {
-        stmU = con.prepareStatement("INSERT INTO benutzer (BeName, passwort, rolle) "
+        stmU = con.prepareStatement("INSERT INTO benutzer (UserName, passwort, rolle) "
                 + "VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
         stmU.setString(1, u.getUsername().trim());
         stmU.setString(2, Encoder.hash(u.getPassword()));
