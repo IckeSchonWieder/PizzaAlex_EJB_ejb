@@ -32,6 +32,7 @@ public class DaoCustomer extends DaoUser {
         
         try {
             connec = getConnection();
+            System.out.println("DaoCust readCust");
             stm = connec.prepareStatement("SELECT * FROM Kunde");
             rs = stm.executeQuery();
             
@@ -64,38 +65,7 @@ public class DaoCustomer extends DaoUser {
     }
     
     
-    public Customer readSingleCustomer(int id) {
-        Customer cus = new Customer();
-        
-        try {
-            connec = getConnection();
-            stm = connec.prepareStatement("SELECT * FROM Kunde WHERE KdNr = ?");
-            stm.setInt(1, id);
-            rs = stm.executeQuery();
-            
-            rs.next();
-            cus.setId(rs.getInt("KdNr"));
-            cus.setUserID(rs.getInt("BeNr"));
-            cus.setFirstname(rs.getString("Vorname"));
-            cus.setLastname(rs.getString("Name"));
-            cus.setStreet(rs.getString("Strasse"));
-            cus.setPostalcode(rs.getString("Plz"));
-            cus.setCity(rs.getString("Ort"));
-
-            readUserData(connec, cus);
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(DaoCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        
-        // Close connection in any case!
-        } finally  {
-            if (connec != null)
-                try {connec.close();} catch (SQLException e) {e.printStackTrace();}
-        }
-        return cus;
-        
-    }
-   
+    
     /**
      * Method for storing a Customer. Customer's attributes are inserted into table 
      * "Kunde" of database "PizzaDB". The new customer number "KdNr" is set
@@ -107,6 +77,7 @@ public class DaoCustomer extends DaoUser {
     public boolean storeContact(Customer cus) {
         try {
             System.out.println("DAOCust: " + cus.hashCode());
+             System.out.println("DaoCust storeCust");
             
             connec = getConnection();
             if (connec == null) {

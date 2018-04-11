@@ -32,9 +32,11 @@ public class DataBean implements Serializable, DataBeanRemote {
     
     @PostConstruct
     public void readLists(){
+        System.out.println("PostConstructCustomer");
         DaoCustomer dc = new DaoCustomer();
         customers.addAll(dc.readCustomers());
         
+        System.out.println("PostConstructPizza");
         DaoPizza dp = new DaoPizza();
         menuList.addAll(dp.readMenu());
     }

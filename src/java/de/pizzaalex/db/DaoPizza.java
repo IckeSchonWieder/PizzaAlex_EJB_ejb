@@ -36,6 +36,8 @@ public class DaoPizza extends DbConnection {
                 
         try {
             connec = getConnection();
+            System.out.println("DaoMenu readMenu");
+            
             stm = connec.prepareStatement("SELECT * FROM pizza");
             rs = stm.executeQuery();
            
@@ -76,6 +78,8 @@ public class DaoPizza extends DbConnection {
         try {
             
             connec = getConnection();
+            System.out.println("DaoMenu storePizza");
+            
             if (connec == null) {
                 return false;
             }
@@ -124,6 +128,8 @@ public class DaoPizza extends DbConnection {
         try {
 
             connec = getConnection();
+            System.out.println("DaoMenu deletePizza");
+            
             if (connec == null) {
                 return false;
             }
