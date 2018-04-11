@@ -32,7 +32,6 @@ public class DaoCustomer extends DaoUser {
         
         try {
             connec = getConnection();
-            System.out.println("DaoCust readCust");
             stm = connec.prepareStatement("SELECT * FROM Kunde");
             rs = stm.executeQuery();
             
@@ -76,8 +75,6 @@ public class DaoCustomer extends DaoUser {
      */
     public boolean storeContact(Customer cus) {
         try {
-            System.out.println("DAOCust: " + cus.hashCode());
-             System.out.println("DaoCust storeCust");
             
             connec = getConnection();
             if (connec == null) {
@@ -87,7 +84,7 @@ public class DaoCustomer extends DaoUser {
             
             storeUser(connec, cus);
                         
-            stm = connec.prepareStatement("INSERT INTO Kunde (Vorname, Name, Strasse, Plz, Ort, BeNr) "
+            stm = connec.prepareStatement("INSERT INTO Kunde (Vorname, Name, Strasse, Plz, Ort, UserNr) "
                                         + "VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS );
             stm.setString(1, cus.getFirstname().trim());
             stm.setString(2, cus.getLastname().trim());

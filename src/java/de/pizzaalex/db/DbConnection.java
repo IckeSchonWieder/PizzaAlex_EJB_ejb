@@ -28,7 +28,6 @@ public class DbConnection {
         Connection connec = null;
 
         try {
-            System.out.println("new Connection");
             
             Context ctx = new InitialContext();
             DataSource ds = (DataSource) ctx.lookup("jdbc/PizzaPool");//

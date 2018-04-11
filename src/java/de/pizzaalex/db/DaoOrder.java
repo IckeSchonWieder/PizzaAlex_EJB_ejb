@@ -33,7 +33,6 @@ public class DaoOrder extends DbConnection {
         
         try {
             connec = getConnection();
-             System.out.println("DaoOrd storeOrd");
             
             if (connec == null) {
                 return false;

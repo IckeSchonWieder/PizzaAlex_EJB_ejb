@@ -36,8 +36,7 @@ public class DaoPizza extends DbConnection {
                 
         try {
             connec = getConnection();
-            System.out.println("DaoMenu readMenu");
-            
+           
             stm = connec.prepareStatement("SELECT * FROM pizza");
             rs = stm.executeQuery();
            

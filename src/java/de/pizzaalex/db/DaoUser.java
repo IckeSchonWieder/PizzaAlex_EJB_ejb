@@ -29,7 +29,7 @@ public class DaoUser extends DbConnection {
     public void storeUser(Connection con, User u) throws SQLException {
         stmU = con.prepareStatement("INSERT INTO benutzer (UserName, passwort, rolle) "
                 + "VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        stmU.setString(1, u.getUsername().trim());
+        stmU.setString(1, u.getUsername().toLowerCase().trim());
         stmU.setString(2, Encoder.hash(u.getPassword()));
         stmU.setString(3, u.getRole().trim());
         int rows = stmU.executeUpdate();

@@ -22,7 +22,8 @@ import javax.ejb.Stateless;
 public class DataBean implements Serializable, DataBeanRemote {
     private ArrayList<Pizza> menuList;
     private ArrayList<Customer> customers;
-
+    private DaoCustomer dc;
+    private DaoPizza dp;
     
     public DataBean() {
         menuList = new ArrayList();
@@ -32,12 +33,11 @@ public class DataBean implements Serializable, DataBeanRemote {
     
     @PostConstruct
     public void readLists(){
-        System.out.println("PostConstructCustomer");
-        DaoCustomer dc = new DaoCustomer();
+        dc = new DaoCustomer();
         customers.addAll(dc.readCustomers());
         
-        System.out.println("PostConstructPizza");
-        DaoPizza dp = new DaoPizza();
+        
+        dp = new DaoPizza();
         menuList.addAll(dp.readMenu());
     }
     
@@ -49,7 +49,6 @@ public class DataBean implements Serializable, DataBeanRemote {
 
     @Override
     public Customer storeCustomer(Customer cus) {
-        DaoCustomer dc = new DaoCustomer();
         dc.storeContact(cus);
         customers.add(cus);
         
@@ -64,13 +63,11 @@ public class DataBean implements Serializable, DataBeanRemote {
 
     @Override
     public void storePizza(Pizza p) {
-        DaoPizza dp = new DaoPizza();
         dp.storePizza(p);
     }
 
     @Override
     public void removePizza(Pizza p) {
-        DaoPizza dp = new DaoPizza();
         dp.deletePizza(p);
     }
     
