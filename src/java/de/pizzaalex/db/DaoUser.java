@@ -23,7 +23,7 @@ public class DaoUser extends DbConnection {
         rsU.next();
         u.setUsername(rsU.getString("UserName").toLowerCase());
         u.setPassword(rsU.getString("Passwort"));
-        u.setRole(rsU.getString("Rolle"));
+        u.setUserRole(rsU.getString("Rolle"));
     }
 
     public void storeUser(Connection con, User u) throws SQLException {
@@ -31,7 +31,7 @@ public class DaoUser extends DbConnection {
                 + "VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
         stmU.setString(1, u.getUsername().toLowerCase().trim());
         stmU.setString(2, Encoder.hash(u.getPassword()));
-        stmU.setString(3, u.getRole().trim());
+        stmU.setString(3, u.getUserRole().trim());
         int rows = stmU.executeUpdate();
         
         rsU = stmU.getGeneratedKeys();

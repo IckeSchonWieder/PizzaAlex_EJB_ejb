@@ -20,37 +20,24 @@ import javax.ejb.Stateless;
  */
 @Stateful(mappedName = "ejb/DataBean")
 public class DataBean implements Serializable, DataBeanRemote {
-    private ArrayList<Pizza> menuList;
-    private ArrayList<Customer> customers;
-    private DaoCustomer dc;
-    private DaoPizza dp;
+   
     
     public DataBean() {
-        menuList = new ArrayList();
-        customers = new ArrayList();
+
     }
     
     
-    @PostConstruct
-    public void readLists(){
-        dc = new DaoCustomer();
-        customers.addAll(dc.readCustomers());
-        
-        
-        dp = new DaoPizza();
-        menuList.addAll(dp.readMenu());
-    }
-    
-        
+     
     @Override
     public ArrayList<Customer> getCustomers() {
-        return customers;
+        DaoCustomer dc = new DaoCustomer();
+        return (ArrayList)dc.readCustomers();
     }
 
     @Override
     public Customer storeCustomer(Customer cus) {
+        DaoCustomer dc = new DaoCustomer();
         dc.storeContact(cus);
-        customers.add(cus);
         
         return cus;
     }
@@ -58,16 +45,20 @@ public class DataBean implements Serializable, DataBeanRemote {
     
     @Override
     public ArrayList<Pizza> getMenuList() {
-        return menuList;
+        DaoPizza dp = new DaoPizza();
+        return (ArrayList)dp.readMenu();
     }
 
     @Override
-    public void storePizza(Pizza p) {
+    public Pizza storePizza(Pizza p) {
+        DaoPizza dp = new DaoPizza();
         dp.storePizza(p);
+        return p;
     }
 
     @Override
     public void removePizza(Pizza p) {
+        DaoPizza dp = new DaoPizza();
         dp.deletePizza(p);
     }
     
